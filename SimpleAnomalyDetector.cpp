@@ -6,7 +6,7 @@
 #include "SimpleAnomalyDetector.h"
 // constructor
 SimpleAnomalyDetector::SimpleAnomalyDetector() {
-//    threshold = 0.9;
+    threshold = 0.9;
 }
 // destructor
 SimpleAnomalyDetector::~SimpleAnomalyDetector() {
@@ -30,7 +30,7 @@ float SimpleAnomalyDetector::getThreshold(Point **ps, correlatedFeatures c, int 
 }
 
 void SimpleAnomalyDetector::learnHelper(float pearson, Point **ps, int size, string s1, string s2, correlatedFeatures c) {
-    if(pearson >= 0.9 && c.corrlation < pearson) {
+    if(pearson >= threshold && c.corrlation < pearson) {
 //        correlatedFeatures c;
         c.feature1 = s1;
         c.feature2 = s2;
@@ -76,7 +76,7 @@ void SimpleAnomalyDetector::learnNormal(const TimeSeries &ts) {
 }
 
 bool SimpleAnomalyDetector::pearsonResult(float pearson, float min) {
-    if(pearson >= 0.9 && min < pearson){
+    if(pearson >= threshold && min < pearson){
         return true;
     }
     return false;

@@ -1,10 +1,17 @@
-#include "minCircle.h"
+// ID1 205892664
+// ID2 313531113
+
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include <vector>
 #include <algorithm>
-#include <assert.h>
+#include "anomaly_detection_util.h"
+#include "minCircle.h"
+
 using namespace std;
+
+
+// cast array of Points to vector
 vector<Point> array_to_vector(Point** points,size_t size){
     vector<Point> points_vector;
     points_vector.reserve(size);
@@ -25,7 +32,7 @@ float pithagoras(float x, float y){
 }
 
 // calculate 2 dimensional distance of two points
-float distance(const Point& a, const Point& b)
+float distance(const Point a, const Point b)
 {
     float xDistance = a.x -b.x;
     float yDistance = a.y -b.y;
@@ -39,22 +46,19 @@ bool is_in_circle(const Circle& c, const Point& p)
 {
     float demanded_distance = distance(c.center, p);
     float radius = c.radius;
-    if (demanded_distance <= radius) {
+    if (demanded_distance <= radius)
         return true;
-    }
     return false;
 }
 
-// Function to check whether a circle
-// encloses the given points
+// Function to check whether a circle encloses the given points
 bool check_is_valid(const Circle& c, const vector<Point>& point)
 {
-    // Iterating through all the points
-    // to check whether the points
-    // lie inside the circle or not
-    for (int i = 0; i < point.size(); i++) {
+    int i = 0;
+    while (i < point.size()){
         if (!is_in_circle(c, point[i]))
             return false;
+        i++;
     }
     return true;
 }
@@ -77,7 +81,8 @@ Circle get_circle_by_two_points(const Point& p1, const Point& p2)
     Point C = Point(average(p1.x, p2.x), average(p1.y, p2.y)) ;
     float diameter = distance(p1, p2);
     float radius = diameter * 0.5;
-    return Circle(C, radius);
+    Circle cir (C, radius);
+    return cir;
 }
 
 // define the smallest circle that intersects 3 points
@@ -114,15 +119,21 @@ Circle min_possible_circle(vector<Point>& point)
     // To check if MEC can be determined
     // by 2 points only
     Circle circle(Point(0,0), 0);
-    for (int i = 0; i <= 2; i++) {
-        for (int j = i; j <= 2; j++) {
+    int size = 3;
+    int i = 0, j = 0;
+    while (i < size){
+        while(j < size){
             if(point[i].x == point[j].x && point[i].y == point[j].y){
+                j++;
                 continue;
             }
             circle = get_circle_by_two_points(point[i], point[j]);
-            if (check_is_valid(circle, point))
+            if (check_is_valid(circle, point)) {
                 return circle;
+            }
+            j++;
         }
+        i++;
     }
     return get_circle_by_three_points(point[0], point[1], point[2]);
 }
@@ -131,8 +142,11 @@ Circle min_possible_circle(vector<Point>& point)
 // Takes a set of input points p1 and a set p2 points on the circle boundary.
 Circle welzl_algorithem(vector<Point>& p1, vector<Point> p2, int n)
 {
-    // Base case when all points processed or |p1| = 3
-    if (n == 0 || p2.size() == 3) {
+    // Base case when all points processed or |p2| = 3
+    if (n == 0) {
+        return min_possible_circle(p2);
+    }
+    if(p2.size() == 3){
         return min_possible_circle(p2);
     }
 
@@ -161,7 +175,9 @@ Circle welzl_algorithem(vector<Point>& p1, vector<Point> p2, int n)
 }
 
 // the algorithm that find minimum circle by using welzl algorithm
-Circle findMinCircle(Point** points, size_t size){
+Circle findMinCircle(Point** points,size_t size){
     vector<Point> vector_of_points = array_to_vector(points, size);
     return welzl_algorithem(vector_of_points, {}, vector_of_points.size());
 }
+
+

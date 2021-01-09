@@ -7,6 +7,7 @@
 #define SIMPLEANOMALYDETECTOR_H_
 #include "anomaly_detection_util.h"
 #include "AnomalyDetector.h"
+#include "minCircle.h"
 #include <vector>
 #include <algorithm>
 #include <string.h>
@@ -22,7 +23,7 @@ struct correlatedFeatures{
 class SimpleAnomalyDetector:public TimeSeriesAnomalyDetector{
 protected:
     vector<correlatedFeatures> cf;
-//    float threshold;
+    float threshold;
 public:
     //constructor
     SimpleAnomalyDetector();
