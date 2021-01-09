@@ -10,7 +10,8 @@ class HybridAnomalyDetector:public SimpleAnomalyDetector {
 public:
     HybridAnomalyDetector();
     virtual ~HybridAnomalyDetector();
-    virtual void learnHelper(float pearson, correlatedFeatures ct, Point **ps, int size, string s1, string s2);
+    virtual void learnHelper(float pearson, Point **ps, int size, string s1, string s2, correlatedFeatures ct);
+    virtual bool pearsonResult(float pearson, float min);
     virtual bool isAnomalous(correlatedFeatures c, float x, float y);
 };
 

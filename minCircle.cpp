@@ -39,8 +39,9 @@ bool is_in_circle(const Circle& c, const Point& p)
 {
     float demanded_distance = distance(c.center, p);
     float radius = c.radius;
-    if (demanded_distance <= radius)
+    if (demanded_distance <= radius) {
         return true;
+    }
     return false;
 }
 
@@ -160,7 +161,7 @@ Circle welzl_algorithem(vector<Point>& p1, vector<Point> p2, int n)
 }
 
 // the algorithm that find minimum circle by using welzl algorithm
-Circle findMinCircle(Point** points,size_t size){
+Circle findMinCircle(Point** points, size_t size){
     vector<Point> vector_of_points = array_to_vector(points, size);
     return welzl_algorithem(vector_of_points, {}, vector_of_points.size());
 }

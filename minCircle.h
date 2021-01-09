@@ -10,18 +10,11 @@
 
 using namespace std;
 
-
-// ------------ DO NOT CHANGE -----------
-//class Point{
-//public:
-//	float x,y;
-//	Point(float x,float y):x(x),y(y){}
-//};
-
 class Circle{
 public:
 	Point center;
 	float radius;
+	Circle(){};
 	Circle(Point c,float r):center(c),radius(r){}
 };
 // --------------------------------------
